@@ -22,6 +22,12 @@ if [ ! -z $refresh_token ]; then
     spotify 2> /dev/null
    else
     echo "Spotify is not playing"
+    checktoken=$(curl -s -X "GET" "https://api.spotify.com/v1/me/player" -H "Authorization: Bearer $access_token" ) #2> /dev/null)
+    checktoken=$(echo $checktoken | cut -d " " -f "5-5" | sed -e 's/,//g')
+    if [ $checktoken == "401" ]; then
+     echo "Getting new access_token"
+     access_token=$(curl -s -d client_id=$CLIENT_ID -d client_secret=$CLIENT_SECRET -d grant_type=refresh_token -d refresh_token=$refresh_token https://accounts.spotify.com/api/token | python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
+    fi
    fi
   fi
   sleep 10
