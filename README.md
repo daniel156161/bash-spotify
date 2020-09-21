@@ -1,6 +1,8 @@
 ## bash-spotify
 run spotify when phone is home and play Song
 
+neat curl to work problem-free else command will not get found
+
 #EDITs
 into both skripts you neat to edit . /home/$USER/.config/Spotify_tokens.sh to your file where you have the CLIENT_ID and CLIENT_SECRET
 
