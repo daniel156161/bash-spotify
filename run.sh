@@ -30,7 +30,7 @@ if [ ! -z $refresh_token ]; then
    if [ "$api" == "True" ]; then
     echo "Spotify is playing on other Device start $SERVICE"
     $SERVICE & 2> /dev/null
-    sleep 10
+    sleep 15
     #Get Computer ID from Spotify
     ComputerID=$(curl -sS -X "GET" "https://api.spotify.com/v1/me/player/devices" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer $access_token" | python -mjson.tool | grep 'id\|name' | sed 's/"id": //g' | sed 's/"name": //g' | tr "," "\n" | grep -B 2 "$Computer" | head -n1 )
     #Switch Playback to Computer
@@ -49,5 +49,5 @@ if [ ! -z $refresh_token ]; then
   sleep 10
  done
 else
- echo "Please get refresh_token and add it into $0" 
+ echo "Please get refresh_token and add it into /home/$USER/.config/Spotify_tokens.sh" 
 fi
