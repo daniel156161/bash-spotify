@@ -1,15 +1,17 @@
-## bash-spotify
+## bash-spotify-automate
 run spotify when phone is home and play Song
 
 neat curl to work problem-free else command will not get found
 
-#EDITs
-into both skripts you neat to edit . /home/$USER/.config/Spotify_tokens.sh to your file where you have the CLIENT_ID and CLIENT_SECRET
+# EDITs
+Config is on /home/$USER/.config/Spotify_tokens.sh
+into run.sh edit ping_url= #IP of your Phone
+and edit Computer= #Name into Spotify list_spotify_devices.sh of your PC
 
-#TO GET CLIENT_ID and CLIENT_SECRET
+# TO GET CLIENT_ID and CLIENT_SECRET
 go to https://developer.spotify.com/dashboard/ add or use a app you like and will see your CLIENT_ID but the CLIENT_SECRET will be hiden click on SHOW CLIENT SECRET to get it then go to the Edit Settings and set the Redirect URIs: to http://localhost/
 
-#GET TOKEN
+# GET TOKEN
 run ./get_tokens.sh into your terminal
 you will get a link and open it into your fav browser
 
