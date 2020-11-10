@@ -17,5 +17,5 @@ run the code again with the code when your REDIRECT is working
 
 ./get_tokens.sh code
 
-then you will have your first access_token and the refresh_token you neat to add into the run.sh
+then you will have your first access_token and the refresh_token you neat to add into the config file Spotify_tokens.sh
 then you neat to add the IP of your Phone
