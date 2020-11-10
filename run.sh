@@ -7,7 +7,7 @@
 ping_url= #IP of your Phone
 SERVICE="spotify"
 keyword=is_playing
-Computer= #Name into Spotify list_spotify_devices.sh of your PC
+Computer=$HOSTNAME
 
 ##Spotify
 . /home/$USER/.config/Spotify_tokens.sh
