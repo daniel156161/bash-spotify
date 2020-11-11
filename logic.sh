@@ -61,7 +61,7 @@ else
     if [ "$api" == "True" ]; then
      playerid=$(curl -s -X "GET" "https://api.spotify.com/v1/me/player" -H "Accept application/json" -H "Authorization: Bearer $access_token" | grep -A 1 "id" | tr "," "\n" | head -n1 | cut -d ":" -f "2")
      echo "Spotify is playing on other Device start $SERVICE"
-     if [ $autologin = 0 ]; then
+     if [ -z $autologin ]; then
       $SERVICE & 2> /dev/null
      else
       $SERVICE --username=$spotifyuser --password=$spotifypass &2> /dev/null
