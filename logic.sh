@@ -50,7 +50,7 @@ else
 	if [ -z $ComputerID ]; then
 	 ComputerID=$(curl -sS -X "GET" "https://api.spotify.com/v1/me/player/devices" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer $access_token" | python -mjson.tool | grep 'id\|name' | sed 's/"id": //g' | sed 's/"name": //g' | tr "," "\n" | grep -B 2 "$Computer" | head -n1 )
 	fi
-    if [ $ComputerID != $playerid ]; then
+    if [ ! -z $ComputerID ] && [ $ComputerID != $playerid ]; then
      #Switch Playback to Computer if it play somewhere else
      curl -X "PUT" "https://api.spotify.com/v1/me/player" --data "{\"device_ids\":[$ComputerID]}" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer $access_token"
     fi
@@ -61,7 +61,11 @@ else
     if [ "$api" == "True" ]; then
      playerid=$(curl -s -X "GET" "https://api.spotify.com/v1/me/player" -H "Accept application/json" -H "Authorization: Bearer $access_token" | grep -A 1 "id" | tr "," "\n" | head -n1 | cut -d ":" -f "2")
      echo "Spotify is playing on other Device start $SERVICE"
-     $SERVICE & 2> /dev/null
+     if [ $autologin = 0 ]; then
+      $SERVICE & 2> /dev/null
+     else
+      $SERVICE --username=$spotifyuser --password=$spotifypass &2> /dev/null
+     fi
      sleep 5
      #Get Computer ID from Spotify
      ComputerID=$(curl -sS -X "GET" "https://api.spotify.com/v1/me/player/devices" -H "Accept: application/json" -H "Content-Type: application/json" -H "Authorization: Bearer $access_token" | python -mjson.tool | grep 'id\|name' | sed 's/"id": //g' | sed 's/"name": //g' | tr "," "\n" | grep -B 2 "$Computer" | head -n1 )
