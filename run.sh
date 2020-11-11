@@ -4,7 +4,6 @@
 #Write Date: 21.09.2020
 #Use: Start Spotify when Phone is home and Transfer Playback to PC
 
-ping_url= #IP of your Phone or Hostname
 SERVICE="spotify"
 keyword=is_playing
 Computer=$HOSTNAME
