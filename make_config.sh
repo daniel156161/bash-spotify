@@ -16,11 +16,9 @@ if [ -f $configfile ]; then
  fi
 fi
 
-read -p 'What is the IP or Hostname of your Phone? ' ping_url
 read -p 'What is your CLIENT_ID: ' CLIENT_ID
 read -p 'What is your CLIENT_SECRET: ' CLIENT_SECRET
 read -p 'Do you have already a Refresh Token? [Y/N]: ' refresh_token_exist
-echo "ping_url=$ping_url">>$configfile
 echo "CLIENT_ID=$CLIENT_ID">>$configfile
 echo "CLIENT_SECRET=$CLIENT_SECRET">>$configfile
  
