@@ -8,11 +8,17 @@ ping_url= #IP of your Phone or Hostname
 SERVICE="spotify"
 keyword=is_playing
 Computer=$HOSTNAME
+configfile=/home/$USER/.config/Spotify_tokens.sh
 
-##Spotify
-. /home/$USER/.config/Spotify_tokens.sh
+#Make config if not exist
+if [ ! -f $configfile ]; then
+ path=$(echo $0 | rev | cut -d "/" -f "2-" | rev)
+ sh $path/make_config.sh
+fi
+##Spotify Variables
+. $configfile
 REDIRECT_URI="http://localhost/"
-
+#Exist refresh_token?
 if [ ! -z $refresh_token ]; then
  #Get Access Token
  access_token=$(curl -s -d client_id=$CLIENT_ID -d client_secret=$CLIENT_SECRET -d grant_type=refresh_token -d refresh_token=$refresh_token https://accounts.spotify.com/api/token | python3 -c "import sys, json; print(json.load(sys.stdin)['access_token'])")
