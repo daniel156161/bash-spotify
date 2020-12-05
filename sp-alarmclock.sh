@@ -3,6 +3,12 @@
 #Write Date: 21.09.2020, 11.11.2020
 #Use: Start Spotify when Phone is home and Transfer Playback to PC
 
+#Install gcalcli if not installed
+if [ ! -f /home/$USER/.local/bin/gcalcli ]; then
+ pip install gcalcli
+fi
+
+keywordgcalcli="Wecker"
 SERVICE="spotify"
 keyword=is_playing
 Computer=$HOSTNAME
@@ -19,12 +25,12 @@ REDIRECT_URI="http://localhost/"
 
 #SET Variables
 time=$(date +%H%M)
-datum=$(date +%d)
+datum=$(date +%Y%m%d)
 
 #Start of Alarm
-startdatum=$(date +%d)
+startdatum=$(gcalcli search $keywordgcalcli --nodeclined --nostarted --tsv 2>/dev/null | head -n1 | cut -f "1" | sed 's/-//g')
+alarm=$(gcalcli search $keywordgcalcli --nodeclined --nostarted --tsv 2>/dev/null | head -n1 | cut -f "2" | sed 's/://g')
 
-alarm=0630
 toplay=spotify:playlist:3QxGISfwWOVO6QtGkn3NqU #One of My Playlists
 
 if [ ! -z $refresh_token ]; then
@@ -35,12 +41,11 @@ if [ ! -z $refresh_token ]; then
   #get if Spotify is Playing on any Device
   api=$(curl -s -X "GET" "https://api.spotify.com/v1/me/player" -H "Authorization: Bearer $access_token" | python3 -c "import sys, json; print(json.load(sys.stdin)['$keyword'])" 2> /dev/null)
   if [ -z "$api" ]; then
-   while [ $time -lt $alarm ] || [ $startdatum -ge $datum ]; do
+   while [ $time -lt $alarm ] || [ $startdatum != $datum  ]; do
     clear
-    echo "$time | Wait for the Time is up"
+    echo "Alarm: $startdatum-$alarm | Now: $datum-$time | Wait for the Time is up"
     sleep 10
     time=$(date +%H%M)
-    datum=$(date +%d)
    done
   fi
   if pgrep -x "$SERVICE" >/dev/null; then
@@ -55,7 +60,8 @@ if [ ! -z $refresh_token ]; then
    if [ -f /tmp/stopspotifyalarm.txt ]; then
     curl -X "PUT" "https://api.spotify.com/v1/me/player/shuffle?state=false" -H "Authorization: Bearer $access_token"
     pkill -f spotify
-    startdatum=$(date +%d)
+    alarm=$(gcalcli search $keywordgcalcli --nodeclined --nostarted --tsv 2>/dev/null | head -n1 | cut -f "2" | sed 's/://g')
+    startdatum=$(gcalcli search $keywordgcalcli --nodeclined --nostarted --tsv 2>/dev/null | head -n1 | cut -f "1" | sed 's/-//g')
     rm -rf /tmp/stopspotifyalarm.txt
    fi
   else
