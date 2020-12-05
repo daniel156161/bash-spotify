@@ -8,7 +8,7 @@ if [ ! -f /home/$USER/.local/bin/gcalcli ]; then
  pip install gcalcli
 fi
 
-if  [ ! -f /home/$USER/.gcalcli_oauth ] then
+if [ ! -f /home/$USER/.gcalcli_oauth ]; then
  echo "Please setup gcalcli https://github.com/insanum/gcalcli"
 fi
 
