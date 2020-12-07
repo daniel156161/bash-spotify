@@ -45,6 +45,7 @@ if [ ! -z $refresh_token ]; then
   #get if Spotify is Playing on any Device
   api=$(curl -s -X "GET" "https://api.spotify.com/v1/me/player" -H "Authorization: Bearer $access_token" | python3 -c "import sys, json; print(json.load(sys.stdin)['$keyword'])" 2> /dev/null)
   if [ -z "$api" ]; then
+   #Wait as long the Arlam is not over
    while [ $time -lt $alarm ] || [ $startdatum != $datum  ]; do
     clear
     echo "Alarm: $startdatum-$alarm | Now: $datum-$time | Wait for the Time is up"
