@@ -50,6 +50,7 @@ if [ ! -z $refresh_token ]; then
     echo "Alarm: $startdatum-$alarm | Now: $datum-$time | Wait for the Time is up"
     sleep 10
     time=$(date +%H%M)
+    datum=$(date +%Y%m%d)
    done
   fi
   if pgrep -x "$SERVICE" >/dev/null; then
